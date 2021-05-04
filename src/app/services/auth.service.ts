@@ -3,18 +3,34 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.reducer';
+import * as actionsA from '../auth/auth.actions';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private _authFire: AngularFireAuth, private _fireStore: AngularFirestore) {
+  subsUser: Subscription;
+
+  constructor(private _authFire: AngularFireAuth, private _fireStore: AngularFirestore, private st: Store<AppState>) {
   }
 
   initAuthListener() {
     this._authFire.authState.subscribe((data) => {
-      console.log(data);
+      if (data) {
+        this.subsUser = this._fireStore.doc(`/dataIE/${data.uid}`).valueChanges().subscribe((res: User) => {
+          const user = new User(res.uid, res.email, res.fullname);
+          this.st.dispatch(actionsA.setUser({ user }));
+        })
+      } else {
+        this.st.dispatch(actionsA.unSetUser());
+        if (this.subsUser) {
+          this.subsUser.unsubscribe();
+        }
+      }
     })
   }
 
@@ -22,7 +38,7 @@ export class AuthService {
     return this._authFire.createUserWithEmailAndPassword(email, password).then(({ user }) => {
       const newUser = new User(user.uid, user.email, fullname);
       console.log(newUser);
-      this._fireStore.collection<User>('dataIE').add({ ...newUser }).then(res => {
+      this._fireStore.doc(`dataIE/${user.uid}`).set({ ...newUser }).then(res => {
         console.log(res);
       }).catch(err => console.error)
     });
