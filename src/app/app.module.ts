@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { IngresoEgresoModule } from './ing-egr/ingreso-egreso.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,8 +19,11 @@ import { IngresoEgresoModule } from './ing-egr/ingreso-egreso.module';
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     AppRoutingModule,
-    IngresoEgresoModule
+    IngresoEgresoModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

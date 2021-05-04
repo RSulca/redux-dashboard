@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-firebase-crud-70984": {
+      "hosting": {
+        "redux-dash": [
+          "angular-firebase-crud-70984"
+        ]
+      }
+    }
+  }
+}
