@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.st.dispatch(actionsU.stopLoading());
     }).catch(error => {
       this.st.dispatch(actionsU.stopLoading());
-      // Swal.fire('Error', error.message, 'error')
+      Swal.fire('Error', error.message, 'error')
       this.formLogin.reset();
     })
   }

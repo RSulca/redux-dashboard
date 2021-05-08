@@ -1,4 +1,3 @@
-import { state } from '@angular/animations';
 import { createReducer, on } from '@ngrx/store';
 import * as actions from '../auth/auth.actions';
 import { User } from '../models/user';

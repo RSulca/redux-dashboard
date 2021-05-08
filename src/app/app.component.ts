@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -9,8 +9,10 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   title = 'redux-dash';
 
-  constructor(private _auth:AuthService) {
+  constructor(private _auth: AuthService) {
     this._auth.initAuthListener();
   }
 
+
 }
+

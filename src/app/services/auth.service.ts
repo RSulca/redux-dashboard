@@ -6,6 +6,7 @@ import { User } from '../models/user';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import * as actionsA from '../auth/auth.actions';
+import * as actionsM from '../ing-egr/ingreso-egreso.actions';
 import { Subscription } from 'rxjs';
 
 @Injectable({
@@ -14,19 +15,30 @@ import { Subscription } from 'rxjs';
 export class AuthService {
 
   subsUser: Subscription;
+  private _user: User;
 
-  constructor(private _authFire: AngularFireAuth, private _fireStore: AngularFirestore, private st: Store<AppState>) {
+  get user() {
+    return this._user;
+  }
+
+  constructor(private authFire: AngularFireAuth, private fireStore: AngularFirestore, private st: Store<AppState>) {
+    this._user = null;
   }
 
   initAuthListener() {
-    this._authFire.authState.subscribe((data) => {
+    this.authFire.authState.subscribe((data) => {
       if (data) {
-        this.subsUser = this._fireStore.doc(`/dataIE/${data.uid}`).valueChanges().subscribe((res: User) => {
+        console.log('Hay data', data);
+        this.subsUser = this.fireStore.doc(`/dataIE/${data.uid}`).valueChanges().subscribe((res: User) => {
           const user = new User(res.uid, res.email, res.fullname);
+          this._user = user;
+          console.log('Hay data real', data);
           this.st.dispatch(actionsA.setUser({ user }));
         })
       } else {
+        this._user = null;
         this.st.dispatch(actionsA.unSetUser());
+        this.st.dispatch(actionsM.unSetMonto());
         if (this.subsUser) {
           this.subsUser.unsubscribe();
         }
@@ -35,25 +47,25 @@ export class AuthService {
   }
 
   register({ email, password, fullname }) {
-    return this._authFire.createUserWithEmailAndPassword(email, password).then(({ user }) => {
+    return this.authFire.createUserWithEmailAndPassword(email, password).then(({ user }) => {
       const newUser = new User(user.uid, user.email, fullname);
       console.log(newUser);
-      this._fireStore.doc(`dataIE/${user.uid}`).set({ ...newUser }).then(res => {
+      this.fireStore.doc(`dataIE/${user.uid}`).set({ ...newUser }).then(res => {
         console.log(res);
       }).catch(err => console.error)
     });
   }
 
   login({ email, password }) {
-    return this._authFire.signInWithEmailAndPassword(email, password);
+    return this.authFire.signInWithEmailAndPassword(email, password);
   }
 
   logout() {
-    return this._authFire.signOut();
+    return this.authFire.signOut();
   }
 
   isAuth() {
-    return this._authFire.authState.pipe(
+    return this.authFire.authState.pipe(
       map(res => res != null)
     )
   }

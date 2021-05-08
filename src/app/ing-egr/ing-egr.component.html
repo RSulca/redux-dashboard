@@ -7,16 +7,16 @@
                     Especifique el monto y el tipo
                 </p>
 
-                <form>
+                <form [formGroup]="formMonto" (ngSubmit)="save()">
 
                     <div class="form-group">
                         <label>Descripción</label>
-                        <input type="text" class="form-control" placeholder="Descripción" name="descripcion">
+                        <input formControlName="descripcion" type="text" class="form-control" placeholder="Descripción" name="descripcion">
                     </div>
 
                     <div class="form-group">
                         <label>Monto</label>
-                        <input type="number" class="form-control" placeholder="Monto" name="monto">
+                        <input formControlName="monto" type="number" class="form-control" placeholder="Monto" name="monto">
                         <p>
                             Debe de ser un monto positivo
                         </p>
@@ -25,15 +25,14 @@
                     <div class="form-group">
                         <label>Tipo</label>
                         <br>
-                        <button type="button" class="btn btn-primary btn-block">Ingreso</button>
+                        <button (click)="changeType()" [ngClass]="{'btn-primary': tipo === 'I', 'btn-warning': tipo === 'E'}" type="button" class="btn btn-block">{{(tipo==='I')?'Ingreso':'Egreso'}}</button>
                         <!-- <button type="button" class="btn btn-warning btn-block">Egreso</button> -->
                     </div>
 
                     <hr>
-                    <button type="button" class="btn btn-success mr-2">
-                <i class="fa fa-save"></i>
-                Agregar
-              </button>
+                    <button [disabled]="formMonto.invalid || loading" type="submit" class="btn btn-success mr-2">
+                        <i [ngClass]="{'fa-spin fa-sync': loading, 'fa-save':!loading}" class="fa"></i>{{(loading)?'Cargando':'Agregar'}}
+                    </button>
 
                     <!-- 
                 <button disabled class="btn btn-success mr-2">
