@@ -15,12 +15,12 @@ export class IngresoEgresoService {
 
   saveIngresoEgreso(monto: IngresoEgreso) {
     const uid = this._auth.user.uid;
-    console.log('Guarda archivo');
+    // console.log('Guarda archivo');
     return this.fireStore.collection(`montos/${uid}/items`).add({ ...monto });
   }
 
   initIngresosEgresosListener(uid: string) {
-    console.log('Ejecuta');
+    // console.log('Ejecuta');
     return this.fireStore.collection(`montos/${uid}/items`)
       .snapshotChanges().pipe(
         map(data => data.map(doc => ({

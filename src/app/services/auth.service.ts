@@ -28,11 +28,11 @@ export class AuthService {
   initAuthListener() {
     this.authFire.authState.subscribe((data) => {
       if (data) {
-        console.log('Hay data', data);
+        // console.log('Hay data', data);
         this.subsUser = this.fireStore.doc(`/dataIE/${data.uid}`).valueChanges().subscribe((res: User) => {
           const user = new User(res.uid, res.email, res.fullname);
           this._user = user;
-          console.log('Hay data real', data);
+          // console.log('Hay data real', data);
           this.st.dispatch(actionsA.setUser({ user }));
         })
       } else {
@@ -49,9 +49,9 @@ export class AuthService {
   register({ email, password, fullname }) {
     return this.authFire.createUserWithEmailAndPassword(email, password).then(({ user }) => {
       const newUser = new User(user.uid, user.email, fullname);
-      console.log(newUser);
+      // console.log(newUser);
       this.fireStore.doc(`dataIE/${user.uid}`).set({ ...newUser }).then(res => {
-        console.log(res);
+        // console.log(res);
       }).catch(err => console.error)
     });
   }

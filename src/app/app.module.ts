@@ -8,19 +8,15 @@ import { appReducers } from './app.reducer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { IngresoEgresoModule } from './ing-egr/ingreso-egreso.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +33,7 @@ import { environment } from 'src/environments/environment';
       logOnly: environment.production,
     }),
     AppRoutingModule,
-    IngresoEgresoModule,
+    AuthModule,
     ReactiveFormsModule
   ],
   providers: [],

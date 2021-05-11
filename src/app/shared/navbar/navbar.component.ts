@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
     this.subsRx = this.st.select('user').pipe(
       filter(({ user }) => user !== null)
     ).subscribe(({ user }) => {
-      console.log('Escucha');
+      // console.log('Escucha');
       this.user = user;
     })
   }

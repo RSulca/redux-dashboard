@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subsRx = this.st.select('user').subscribe(({ user }) => {
-      console.log('Escucha');
+      // console.log('Escucha');
       if (user) {
         this.user = user;
       }
@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   logout() {
     this._auth.logout().then(() => {
       Swal.fire('Thank you!', '', 'success');
-      this.router.navigateByUrl("/login");
+      this.router.navigateByUrl("/auth/login");
     }).catch(error => console.error)
   }
 

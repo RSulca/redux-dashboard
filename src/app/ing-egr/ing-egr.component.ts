@@ -39,11 +39,11 @@ export class IngEgrComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    console.log('Entra a boton');
+    // console.log('Entra a boton');
     this.st.dispatch(actions.isLoading());
     this._ie.saveIngresoEgreso({ ...this.formMonto.value, tipo: this.tipo })
       .then((res) => {
-        console.log('Guardo 1 archivo');
+        // console.log('Guardo 1 archivo');
         this.st.dispatch(actions.stopLoading());
         Swal.fire('Agregado', '', 'success');
         this.formMonto.reset();

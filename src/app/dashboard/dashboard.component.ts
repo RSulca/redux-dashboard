@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ).subscribe(({ user }) => {
       this.subsRxList = this._ie.initIngresosEgresosListener(user.uid).subscribe((data: IngresoEgreso[]) => {
         this.st.dispatch(actionsM.setMonto({ montos: data }));
-        console.log(data);
       });
     })
   }

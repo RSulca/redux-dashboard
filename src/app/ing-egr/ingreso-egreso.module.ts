@@ -10,6 +10,8 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { SortIEPipe } from '../pipes/sort-ie.pipe';
 import { ChartsModule } from 'ng2-charts';
+import { StoreModule } from '@ngrx/store';
+import { montoReducer } from './ingreso-egreso.reducer';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { ChartsModule } from 'ng2-charts';
   ],
   imports: [
     CommonModule,
+    StoreModule.forFeature('ingresoEgreso', montoReducer),
     ReactiveFormsModule,
     IngresoEgresoRoutingModule,
     SharedModule,
